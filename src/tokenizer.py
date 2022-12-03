@@ -1,32 +1,42 @@
 import os
 
 class Tokenizer:
-    def __init__(self, save_dir, freq_limit=5) -> None:
+    def __init__(self, save_dir, freq_limit=5, max_len=410) -> None:
         self.save_dir = save_dir
         if not os.path.exists(save_dir):
             os.makedirs(save_dir)
         self.freq_limit = freq_limit
 
+        self.max_len = max_len
 
-        
-        self.tokens = ['START', 'END', 'PAD']
+        self.tokens = ['START', 'END', 'PAD', 'UNK']
 
         self.idx_token = {
             0:self.tokens[0],
             1:self.tokens[1],
             2:self.tokens[2],
+            3:self.tokens[3],
+
         }
 
         self.token_idx = {
             self.tokens[0]: 0,
             self.tokens[1]: 1,
             self.tokens[2]: 2,
+            self.tokens[3]: 3,
+
         }
 
         self.counts = {}
 
+    def preprocess(self, text):
+        sample = ''.join([s for s in text.lower() if s.isalpha() or s==' '])
+        
+        return sample
+
+
     def update_tokens(self, sample) -> None:
-        sample = ''.join([s for s in sample.lower() if s.isalpha() or s==' '])
+        sample = self.preprocess(sample)
         words = sample.split()
 
         for word in words:
@@ -60,3 +70,40 @@ class Tokenizer:
 
         except:
             print(f'Could not load from {self.save_dir}')
+
+
+    def encode(self, text):
+        text = self.preprocess(text)
+        words = text.split()
+
+        output = []
+        # output.append(self.token_idx['START'])
+
+        for word in words:
+            if word in self.tokens:
+                output.append(self.token_idx[word])
+            else:
+                output.append(self.token_idx['UNK'])
+
+        output = output[:self.max_len] #cut out other stuff and keep only max_len tokens
+
+        if len(output) < self.max_len:
+            output += [self.token_idx['PAD']]*(self.max_len-len(output))
+
+
+        output = [self.token_idx['START']] + output + [self.token_idx['END']]
+
+
+        return output
+
+        
+
+    def decoder(self, indices):
+        output = []
+
+        for ind in indices:
+            output.append(self.idx_token[ind])
+
+        return ''.join(output)
+
+    
