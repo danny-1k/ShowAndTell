@@ -84,7 +84,7 @@ if __name__ == '__main__':
             y = y.cuda()
 
             optimizer.zero_grad()
-            p = net(x, max_len=args.seq_len) # (N, seq_len, 7689), Y -> (N, seq_len)
+            p = net(x, max_len=args.seq_len+1) # (N, seq_len, 7689), Y -> (N, seq_len)
 
             loss = lossfn(
                 p.view(p.shape[0]*p.shape[1], -1),
@@ -105,7 +105,7 @@ if __name__ == '__main__':
                 x = x.cuda()
                 y = y.cuda()
 
-                p = net(x, max_len=args.seq_len) # (N, seq_len, 7689), Y -> (N, seq_len)
+                p = net(x, max_len=args.seq_len+1) # (N, seq_len, 7689), Y -> (N, seq_len)
 
                 loss = lossfn(
                     p.view(p.shape[0]*p.shape[1], -1),
