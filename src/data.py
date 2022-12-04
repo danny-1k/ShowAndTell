@@ -18,9 +18,9 @@ class Flickr(Dataset):
     def __init__(self, train=True) -> None:
         super().__init__()
         if train:
-          self.df = pd.read_csv('../data/flickr30k/train.csv', sep='| ')
+          self.df = pd.read_csv('../data/flickr30k/train.csv')
         else:
-          self.df = pd.read_csv('../data/flickr30k/test.csv', sep='| ')
+          self.df = pd.read_csv('../data/flickr30k/test.csv')
 
         self.transforms = train_transforms if train else test_transforms
         
