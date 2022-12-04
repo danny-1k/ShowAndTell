@@ -44,13 +44,13 @@ if __name__ == '__main__':
     optimizer = SGD(net.parameters(), lr=args.lr)
     
     train = DataLoader(
-        Flickr(train=True),
+        Flickr(tokenizer=tokenizer, train=True),
         batch_size=64,
         shuffle=True,
     )
 
     test = DataLoader(
-        Flickr(train=False),
+        Flickr(tokenizer=tokenizer, train=False),
         batch_size=64,
         shuffle=True,
     )
@@ -73,6 +73,9 @@ if __name__ == '__main__':
         else:
             start_epoch = 0
             print('Failed to load checkpoint... Training from scratch')
+    else:
+        start_epoch = 0
+
 
     for epoch in range(start_epoch, epochs):
         net.train()

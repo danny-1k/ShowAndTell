@@ -3,7 +3,6 @@ import torchvision.transforms as transforms
 from torch.utils.data import Dataset
 import pandas as pd
 from utils import process_text, read_img
-from tokenizer import Tokenizer
 
 train_transforms = transforms.Compose([
   transforms.Resize((244, 224)),
@@ -18,7 +17,7 @@ test_transforms = transforms.Compose([
 ])
 
 class Flickr(Dataset):
-    def __init__(self, train=True) -> None:
+    def __init__(self, tokenizer, train=True) -> None:
         super().__init__()
         if train:
           self.df = pd.read_csv('../data/flickr30k/train.csv')
@@ -27,7 +26,7 @@ class Flickr(Dataset):
 
         self.transforms = train_transforms if train else test_transforms
 
-        self.tokenizer = Tokenizer('../tokens/flickr')
+        self.tokenizer = tokenizer
         self.tokenizer.load()
         
     def __len__(self):
