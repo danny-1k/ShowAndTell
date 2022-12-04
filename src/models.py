@@ -10,22 +10,24 @@ class ShowAndTellNet(nn.Module):
         self.encoder = encoder.features
 
         self.embed = nn.Embedding(num_embeddings=vocab_size, embedding_dim=embed_dim)
+        self.device = 'cuda' if torch.cuda.is_available() else 'cpu'
+
 
         self.img2h = nn.LSTM(
             input_size=encoder.classifier[0].in_features,
             hidden_size=hidden_size,
             num_layers=num_rnn_layers,
             batch_first=True
-        )
+        ).to(self.device)
 
         self.decoder = nn.LSTM(
             input_size=embed_dim,
             hidden_size=hidden_size,
             num_layers=num_rnn_layers,
             batch_first=True
-        )
+        ).to(self.device)
 
-        self.p = nn.Linear(hidden_size, vocab_size)
+        self.p = nn.Linear(hidden_size, vocab_size).to(self.device)
 
 
     def forward(self, x, max_len):
@@ -34,9 +36,9 @@ class ShowAndTellNet(nn.Module):
 
         _, (h, c)  = self.img2h(x)
 
-        sentence = torch.zeros((x.shape[0], max_len, self.vocab_size))
+        sentence = torch.zeros((x.shape[0], max_len, self.vocab_size)).to(self.device)
 
-        S_t = torch.zeros((x.shape[0], 1)).long()
+        S_t = torch.zeros((x.shape[0], 1)).long().to(self.device)
 
         for t in range(max_len):
 
