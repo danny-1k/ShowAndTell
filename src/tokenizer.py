@@ -87,12 +87,11 @@ class Tokenizer:
 
         output = output[:self.max_len] #cut out other stuff and keep only max_len tokens
 
-        if len(output) < self.max_len:
-            output += [self.token_idx['PAD']]*(self.max_len-len(output))
-
-
         output = [self.token_idx['START']] + output + [self.token_idx['END']]
 
+        if len(output) < self.max_len+1:
+
+            output += [self.token_idx['PAD']]*(self.max_len+1-len(output))
 
         return output
 
