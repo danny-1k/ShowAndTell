@@ -28,8 +28,10 @@ class Flickr(Dataset):
         return len(self.df)
 
     def __getitem__(self, index):
-        item = self.df[index]
-        img = train_transforms(os.path.join('../data/flickr30k/flickr30k_images', item['image_name']))
+        item = self.df.iloc[index]
+        img = train_transforms(
+          read_img(os.path.join('../data/flickr30k/flickr30k_images', item['image_name']))
+        )
         label = process_text(item['comment'])
 
         return img, label
