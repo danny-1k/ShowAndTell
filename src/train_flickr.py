@@ -28,7 +28,7 @@ if __name__ == '__main__':
     from utils import save_checkpoint, load_checkpoint
 
 
-    tokenizer = Tokenizer('../tokens/flickr', max_len=args)
+    tokenizer = Tokenizer('../tokens/flickr', max_len=args.seq_len)
     tokenizer.load()
 
     vocab_size = len(tokenizer.tokens)
