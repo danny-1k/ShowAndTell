@@ -1,4 +1,5 @@
 if __name__ == '__main__':
+    import os
     from argparse import ArgumentParser
 
 
@@ -7,10 +8,12 @@ if __name__ == '__main__':
     parser.add_argument('--lr', default=1e-4, type=float, help='Learning rate. Default 1e-4')
     parser.add_argument('--encoder', default='vgg16', help='Visual Encoder. Can be \'vgg16\' or \'vgg19\'. Default vgg16')
     parser.add_argument('--epochs', default=100, type=int, help='Maximum number of epochs to train for. Default 100')
+    parser.add_argument('--batch_size', default=64, type=int, help="Batch Size. Default 64")
     parser.add_argument('--seq_len', default=100, type=int, help="Maximum number of tokens per sequence. Truncation may occur for some sequences in the training dataset. Default 100")
     parser.add_argument('--save_dir', required=True, help="Where should I save the checkpoints?")
     parser.add_argument('--resume', action='store_true', help='Whether or not to resume training from a checkpoint')
     parser.add_argument('--checkpoint_name', default='best_checkpoint.pth', help='If --resume is true, supply this flag with the name of the checkpoint to load')
+
 
 
     args = parser.parse_args()
@@ -45,13 +48,13 @@ if __name__ == '__main__':
     
     train = DataLoader(
         Flickr(tokenizer=tokenizer, train=True),
-        batch_size=64,
+        batch_size=args.batch_size,
         shuffle=True,
     )
 
     test = DataLoader(
         Flickr(tokenizer=tokenizer, train=False),
-        batch_size=64,
+        batch_size=args.batch_size,
         shuffle=True,
     )
 
@@ -59,6 +62,9 @@ if __name__ == '__main__':
 
     train_loss = 0
     test_loss = 0
+
+    if not os.path.exists(args.save_dir):
+        os.makedirs(args.save_dir)
 
     if args.resume:
         if os.path.exists(os.path.join(args.save_dir, args.checkpoint_name)):
