@@ -136,7 +136,6 @@ if __name__ == '__main__':
 
         if test_loss == lowest_loss:
             save_checkpoint(checkpoint, os.path.join(args.save_dir, 'best_checkpoint.pth'))
-        else:
-            save_checkpoint(checkpoint,  os.path.join(args.save_dir, 'checkpoint.pth'))
+        save_checkpoint(checkpoint,  os.path.join(args.save_dir, 'checkpoint.pth'))
             
         print(f'EPOCH : {epoch+1} Train Loss : {train_loss:.3f} Test Loss: {test_loss:3f}')
