@@ -4,7 +4,7 @@ from torchvision.models.vgg import vgg16
 
 
 class ShowAndTellNet(nn.Module):
-    def __init__(self, vocab_size, num_rnn_layers=1, encoder=vgg16, hidden_size=512, embed_dim=512):
+    def __init__(self, vocab_size, num_rnn_layers=1, encoder=vgg16(), hidden_size=512, embed_dim=512):
         super().__init__()
         self.vocab_size = vocab_size
         self.encoder = encoder.features
