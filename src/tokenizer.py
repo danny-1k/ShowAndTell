@@ -101,8 +101,12 @@ class Tokenizer:
         output = []
 
         for ind in indices:
-            output.append(self.idx_token[ind])
+            t = self.idx_token[ind]
+            if t == 'PAD' or t == 'END':
+                break
+            else:
+                output.append(t)
 
-        return ''.join(output)
+        return ' '.join(output)
 
     
