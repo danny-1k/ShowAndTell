@@ -14,5 +14,5 @@ def process_text(tokenizer, text):
 def save_checkpoint(checkpoint, checkpoint_f):
     torch.save(checkpoint, checkpoint_f)
 
-def load_checkpoint(checkpoint_f):
-    return torch.load(checkpoint_f)
+def load_checkpoint(checkpoint_f, device='cpu'):
+    return torch.load(checkpoint_f, map_location=device)
