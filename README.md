@@ -28,7 +28,13 @@ The objective is to maximize the **log likelihood** of the sentence given the im
 
 # Training the model
 ## Steps to get started
-1. Download Flickr30 dataset from kaggle and put it in ``data/flickr30k``
-2. "cd" into *src* and run ``python fix_flickr_dataset.py``
-3. train-test split
-4. train the model ``python train_flickr.py --save_dir [path to save checkpoints]``
+~~1. Download Flickr30 dataset from kaggle and put it in ``data/flickr30k``~~
+
+~~2. "cd" into *src* and run ``python fix_flickr_dataset.py``~~
+
+1. "cd" into *scripts* and run ``download_data.sh``
+2. train-test split
+3. train the model ``python train_flickr.py --save_dir [path to save checkpoints]``
+
+# TODO
+- post pretrained image captioner (I'm currently training the model)
