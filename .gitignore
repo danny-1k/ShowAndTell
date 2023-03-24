@@ -1,0 +1,6 @@
+*.out
+wget*
+__pycache__
+runs
+data
+*logs.txt
