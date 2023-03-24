@@ -1,0 +1,1 @@
+nohup tensorboard --logdir=../runs/vgg16_lstm --host=0.0.0.0 --port 6007 &
